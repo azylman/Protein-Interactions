@@ -15,6 +15,68 @@ public class FeatureVector {
 	List<Double> sasaArr = new ArrayList<Double>();
 	List<Double> nciArr = new ArrayList<Double>();
 	
+	FeatureVector(String sequence) {
+		// Store the sequence.
+		this.sequence = sequence;
+		
+		calculateCrossCovariance(sequence, hydrophobicity, hydrophobicityArr);
+		
+		calculateCrossCovariance(sequence, hydrophocility, hydrophocilityArr);
+		
+		calculateCrossCovariance(sequence, volume, volumeArr);
+		
+		calculateCrossCovariance(sequence, polarity, polarityArr);
+		
+		calculateCrossCovariance(sequence, polarizability, polarizabilityArr);
+		
+		calculateCrossCovariance(sequence, SASA, sasaArr);
+		
+		calculateCrossCovariance(sequence, NCI, nciArr);
+	}
+	
+	private void calculateCrossCovariance(String sequence, Map<Character, Double> map, List<Double> list) {
+		int lg = 30; // Can change this -- optimize!
+		int sequenceLength = sequence.length();
+		
+		// Calculate the feature vector values
+		
+		// Go through each of the lag values
+		for (int lag = 1; lag <= lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
+			
+			// Go through each of amino acids
+			for (int i = 0; i < sequenceLength-lag; i++) {
+				
+				// Average value
+				double average = 0;
+				
+				for(int j = 0; j < sequenceLength; j++) {
+					average += map.get(sequence.charAt(j));
+				}
+				
+				average /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = map.get(sequence.charAt(i)) - average;
+				
+				// Right term inside the sum
+				double rightTerm = map.get(sequence.charAt(i + lag)) - average;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
+			}
+			
+			// Add the calculated value to the feature vector.
+			list.add(outsideVal * sum);
+		}
+	}
+	
+	String getSequence() {
+		return sequence;
+	}
+	
 	@SuppressWarnings("serial")
 	Map<Character, Double> hydrophobicity = new HashMap<Character, Double>(){{
 		put('A',0.62);
@@ -183,65 +245,4 @@ public class FeatureVector {
 		put('Y',0.023599);
 	}};
 
-	FeatureVector(String sequence) {
-		// Store the sequence.
-		this.sequence = sequence;
-		
-		calculateCrossCovariance(sequence, hydrophobicity, hydrophobicityArr);
-		
-		calculateCrossCovariance(sequence, hydrophocility, hydrophocilityArr);
-		
-		calculateCrossCovariance(sequence, volume, volumeArr);
-		
-		calculateCrossCovariance(sequence, polarity, polarityArr);
-		
-		calculateCrossCovariance(sequence, polarizability, polarizabilityArr);
-		
-		calculateCrossCovariance(sequence, SASA, sasaArr);
-		
-		calculateCrossCovariance(sequence, NCI, nciArr);
-	}
-	
-	private void calculateCrossCovariance(String sequence, Map<Character, Double> map, List<Double> list) {
-		int lg = 30; // Can change this -- optimize!
-		int sequenceLength = sequence.length();
-		
-		// Calculate the feature vector values
-		
-		// Go through each of the lag values
-		for (int lag = 1; lag <= lg; lag++) {
-			double outsideVal = 1/(sequenceLength - lag);
-			double sum = 0;
-			
-			// Go through each of amino acids
-			for (int i = 0; i < sequenceLength-lag; i++) {
-				
-				// Average value
-				double average = 0;
-				
-				for(int j = 0; j < sequenceLength; j++) {
-					average += map.get(sequence.charAt(j));
-				}
-				
-				average /= sequenceLength;
-				
-				// Left term inside the sum
-				double leftTerm = map.get(sequence.charAt(i)) - average;
-				
-				// Right term inside the sum
-				double rightTerm = map.get(sequence.charAt(i + lag)) - average;
-				
-				// Add to sum
-				sum += leftTerm * rightTerm;
-				
-			}
-			
-			// Add the calculated value to the feature vector.
-			list.add(outsideVal * sum);
-		}
-	}
-	
-	String getSequence() {
-		return sequence;
-	}
 }
