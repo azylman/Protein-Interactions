@@ -186,11 +186,8 @@ public class FeatureVector {
 		// Store the sequence.
 		this.sequence = sequence;
 		
-		int lg = 30;								// Can change this -- optimize!
+		int lg = 30; // Can change this -- optimize!
 		int sequenceLength = sequence.length();
-		
-		// Keep track of where we are in the feature array.
-		int featureArrayCurrIndex = 0;
 		
 		// Calculate the feature vector values
 		
