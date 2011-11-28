@@ -217,8 +217,7 @@ public class FeatureVector {
 			for (int i = 0; i < sequenceLength-lag; i++) {
 				
 				// Average value
-				double average;
-				average = 0;
+				double average = 0;
 				
 				for(int j = 0; j < sequenceLength; j++) {
 					average += map.get(sequence.charAt(j));
