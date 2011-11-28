@@ -9,7 +9,7 @@ import com.zylman.protein.DIP.Field;
 public class FeatureVector {
 	String sequence;
 	ArrayList<Double> hydrophobicityArr = new ArrayList<Double>();
-	ArrayList<Double> hydrophicilityArr = new ArrayList<Double>();
+	ArrayList<Double> hydrophocilityArr = new ArrayList<Double>();
 	ArrayList<Double> volumeArr = new ArrayList<Double>();
 	ArrayList<Double> polarityArr = new ArrayList<Double>();
 	ArrayList<Double> polarizabilityArr = new ArrayList<Double>();
@@ -174,73 +174,260 @@ public class FeatureVector {
 	FeatureVector(String sequence) {
 		// Store the sequence.
 		this.sequence = sequence;
-		/*
-		int lg = 30;		// Can change this -- optimize!
+		
+		int lg = 30;								// Can change this -- optimize!
 		int sequenceLength = sequence.length();
-		double featureArray[] = new double[lg * 7];
 		
 		// Keep track of where we are in the feature array.
 		int featureArrayCurrIndex;
 		featureArrayCurrIndex = 0;
 		
-		// First, the hydrophobicity
-		for(int lag=1; lag<=sequenceLength-lag; lag++) {
-			double firstVal = 1/(sequenceLength - lag);
-			double averageHydrophobicity;
+		// Calculate the feature vector values
+		
+		
+		/* Hydrophobicity */
+		
+		// Go through each of the lag values
+		for(int lag=1; lag<=lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
 			
-			// Calculate average hydrophobicity
-			averageHydrophobicity = 0;
-			for(int i=0; i<sequenceLength; i++) {
-				averageHydrophobicity += 
+			// Go through each of amino acids
+			for(int i=1; i<=sequenceLength-lag; i++) {
+				
+				// Average value
+				double averageHydrophobicity;
+				averageHydrophobicity = 0;
+				for(int aa=0; aa<sequenceLength; aa++) {
+					averageHydrophobicity += hydrophobicity.get(sequence.charAt(aa));
+				}
+				averageHydrophobicity /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = hydrophobicity.get(sequence.charAt(i)) - averageHydrophobicity;
+				
+				// Right term inside the sum
+				double rightTerm = hydrophobicity.get(sequence.charAt(i + lag)) - averageHydrophobicity;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
 			}
-		}
-		
-		// Now the hydrophilicity
-		for(int lag=1; lag<=sequenceLength-lag; lag++) {
-			double firstVal = 1/(sequenceLength - lag);
-			double averageHydrophilicity;
 			
-		}
-=======
-	
-	FeatureVector(String aminoSequence) {
->>>>>>> 03b092502a29956ea5aa3bb5ef0177e573d655d9
-		
-		// Volume
-		for(int lag=1; lag<=sequenceLength-lag; lag++) {
-			double firstVal = 1/(sequenceLength - lag);
-			double averageVolume;
+			// Add the calculated value to the feature vector.
+			this.hydrophobicityArr.add(outsideVal * sum);
 			
 		}
 		
-		// Polarity
-		for(int lag=1; lag<=sequenceLength-lag; lag++) {
-			double firstVal = 1/(sequenceLength - lag);
-			double averagePolarity;
+		
+		/* Hydrophocility */
+		
+		// Go through each of the lag values
+		for(int lag=1; lag<=lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
+			
+			// Go through each of amino acids
+			for(int i=1; i<=sequenceLength-lag; i++) {
+				
+				// Average value
+				double averageHydrophocility;
+				averageHydrophocility = 0;
+				for(int aa=0; aa<sequenceLength; aa++) {
+					averageHydrophocility += hydrophocility.get(sequence.charAt(aa));
+				}
+				averageHydrophocility /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = hydrophocility.get(sequence.charAt(i)) - averageHydrophocility;
+				
+				// Right term inside the sum
+				double rightTerm = hydrophocility.get(sequence.charAt(i + lag)) - averageHydrophocility;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
+			}
+			
+			// Add the calculated value to the feature vector.
+			this.hydrophocilityArr.add(outsideVal * sum);
 			
 		}
 		
-		// Polarizability
-		for(int lag=1; lag<=sequenceLength-lag; lag++) {
-			double firstVal = 1/(sequenceLength - lag);
-			double averagePolarizability;
+		
+		/* Volume */
+		
+		// Go through each of the lag values
+		for(int lag=1; lag<=lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
+			
+			// Go through each of amino acids
+			for(int i=1; i<=sequenceLength-lag; i++) {
+				
+				// Average value
+				double averageVolume;
+				averageVolume = 0;
+				for(int aa=0; aa<sequenceLength; aa++) {
+					averageVolume += volume.get(sequence.charAt(aa));
+				}
+				averageVolume /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = volume.get(sequence.charAt(i)) - averageVolume;
+				
+				// Right term inside the sum
+				double rightTerm = volume.get(sequence.charAt(i + lag)) - averageVolume;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
+			}
+			
+			// Add the calculated value to the feature vector.
+			this.volumeArr.add(outsideVal * sum);
 			
 		}
 		
-		// SASA
-		for(int lag=1; lag<=sequenceLength-lag; lag++) {
-			double firstVal = 1/(sequenceLength - lag);
-			double averageSASA;
+		
+		/* Polarity */
+		
+		// Go through each of the lag values
+		for(int lag=1; lag<=lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
+			
+			// Go through each of amino acids
+			for(int i=1; i<=sequenceLength-lag; i++) {
+				
+				// Average value
+				double averagePolarity;
+				averagePolarity = 0;
+				for(int aa=0; aa<sequenceLength; aa++) {
+					averagePolarity += polarity.get(sequence.charAt(aa));
+				}
+				averagePolarity /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = polarity.get(sequence.charAt(i)) - averagePolarity;
+				
+				// Right term inside the sum
+				double rightTerm = polarity.get(sequence.charAt(i + lag)) - averagePolarity;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
+			}
+			
+			// Add the calculated value to the feature vector.
+			this.polarityArr.add(outsideVal * sum);
 			
 		}
 		
-		// NCI
-		for(int lag=1; lag<=sequenceLength-lag; lag++) {
-			double firstVal = 1/(sequenceLength - lag);
-			double averageNCI;
+		
+		/* Polarizability */
+		
+		// Go through each of the lag values
+		for(int lag=1; lag<=lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
+			
+			// Go through each of amino acids
+			for(int i=1; i<=sequenceLength-lag; i++) {
+				
+				// Average value
+				double averagePolarizability;
+				averagePolarizability = 0;
+				for(int aa=0; aa<sequenceLength; aa++) {
+					averagePolarizability += polarizability.get(sequence.charAt(aa));
+				}
+				averagePolarizability /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = polarizability.get(sequence.charAt(i)) - averagePolarizability;
+				
+				// Right term inside the sum
+				double rightTerm = polarizability.get(sequence.charAt(i + lag)) - averagePolarizability;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
+			}
+			
+			// Add the calculated value to the feature vector.
+			this.polarizabilityArr.add(outsideVal * sum);
 			
 		}
-	*/	
+		
+		
+		/* SASA */
+		
+		// Go through each of the lag values
+		for(int lag=1; lag<=lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
+			
+			// Go through each of amino acids
+			for(int i=1; i<=sequenceLength-lag; i++) {
+				
+				// Average value
+				double averageSASA;
+				averageSASA = 0;
+				for(int aa=0; aa<sequenceLength; aa++) {
+					averageSASA += SASA.get(sequence.charAt(aa));
+				}
+				averageSASA /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = SASA.get(sequence.charAt(i)) - averageSASA;
+				
+				// Right term inside the sum
+				double rightTerm = SASA.get(sequence.charAt(i + lag)) - averageSASA;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
+			}
+			
+			// Add the calculated value to the feature vector.
+			this.sasaArr.add(outsideVal * sum);
+			
+		}
+		
+		
+		/* NCI */
+		
+		// Go through each of the lag values
+		for(int lag=1; lag<=lg; lag++) {
+			double outsideVal = 1/(sequenceLength - lag);
+			double sum = 0;
+			
+			// Go through each of amino acids
+			for(int i=1; i<=sequenceLength-lag; i++) {
+				
+				// Average value
+				double averageNCI;
+				averageNCI = 0;
+				for(int aa=0; aa<sequenceLength; aa++) {
+					averageNCI += NCI.get(sequence.charAt(aa));
+				}
+				averageNCI /= sequenceLength;
+				
+				// Left term inside the sum
+				double leftTerm = NCI.get(sequence.charAt(i)) - averageNCI;
+				
+				// Right term inside the sum
+				double rightTerm = NCI.get(sequence.charAt(i + lag)) - averageNCI;
+				
+				// Add to sum
+				sum += leftTerm * rightTerm;
+				
+			}
+			
+			// Add the calculated value to the feature vector.
+			this.nciArr.add(outsideVal * sum);
+			
+		}
 	}
 	
 	String getSequence() {
