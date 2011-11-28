@@ -201,6 +201,10 @@ public class FeatureVector {
 			double averageHydrophilicity;
 			
 		}
+=======
+	
+	FeatureVector(String aminoSequence) {
+>>>>>>> 03b092502a29956ea5aa3bb5ef0177e573d655d9
 		
 		// Volume
 		for(int lag=1; lag<=sequenceLength-lag; lag++) {
@@ -240,7 +244,6 @@ public class FeatureVector {
 	}
 	
 	String getSequence() {
-		return sequence;	
+		return sequence;
 	}
-	
 }
