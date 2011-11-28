@@ -12,23 +12,21 @@ public class DIP {
 	public class Interaction {
 		String first;
 		String second;
-		Interaction(String interaction) {
-			String[] fields = interaction.split("\t");
-			first = fields[0];
-			second = fields[1];
+		Interaction(String first, String second) {
+			this.first = first;
+			this.second = second;
 		}
 	}
 	
-	List<Interaction> interactions = new ArrayList<Interaction>(); 
+	List<Interaction> interactions = new ArrayList<Interaction>();
 	
 	DIP(String filePath) throws FileNotFoundException, IOException {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
 		
 		String line = br.readLine(); // Remove column headings
 		while ((line = br.readLine()) != null) {
-			interactions.add(new Interaction(line));
+			String[] fields = line.split("\t");
+			interactions.add(new Interaction(fields[0], fields[1]));
 		}
-		
-		// create negative interactions
 	}
 }
