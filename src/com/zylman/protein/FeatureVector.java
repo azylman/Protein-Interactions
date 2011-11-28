@@ -206,23 +206,24 @@ public class FeatureVector {
 		int lg = 30; // Can change this -- optimize!
 		int sequenceLength = sequence.length();
 		
-		
 		// Calculate the feature vector values
 		
 		// Go through each of the lag values
-		for(int lag=1; lag<=lg; lag++) {
+		for (int lag = 1; lag <= lg; lag++) {
 			double outsideVal = 1/(sequenceLength - lag);
 			double sum = 0;
 			
 			// Go through each of amino acids
-			for(int i=1; i<=sequenceLength-lag; i++) {
+			for (int i = 0; i < sequenceLength-lag; i++) {
 				
 				// Average value
 				double average;
 				average = 0;
-				for(int aa=0; aa<sequenceLength; aa++) {
-					average += map.get(sequence.charAt(aa));
+				
+				for(int j = 0; j < sequenceLength; j++) {
+					average += map.get(sequence.charAt(j));
 				}
+				
 				average /= sequenceLength;
 				
 				// Left term inside the sum
