@@ -14,15 +14,15 @@ public class Main {
 		
 		for (PositiveInteraction interaction : dip.getPositiveInteractions()) {
 			enhancedDatabase.add(interaction);
-			enhancedDatabase.add(createShuffledInteraction(interaction));
+			enhancedDatabase.add(createNegativeInteraction(interaction));
 		}
 	}
 	
-	private static NegativeInteraction createShuffledInteraction(PositiveInteraction positiveInteraction) {
+	private static NegativeInteraction createNegativeInteraction(PositiveInteraction positiveInteraction) {
 		return new NegativeInteraction(shuffle(positiveInteraction.getFirst().getSequence()), positiveInteraction.getSecond().getSequence());
 	}
 	
 	private static String shuffle(String sequence) {
-		return null;
+		return sequence; // TODO: shuffle sequence
 	}
 }
