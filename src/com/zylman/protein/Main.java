@@ -12,7 +12,7 @@ public class Main {
 		
 		DIP dip = new DIP("dip20111027.txt");
 		
-		for (PositiveInteraction interaction : dip.getPositiveInteractions()) {
+		for (PositiveInteraction interaction : dip.getInteractions()) {
 			enhancedDatabase.add(interaction);
 			enhancedDatabase.add(createNegativeInteraction(interaction));
 		}

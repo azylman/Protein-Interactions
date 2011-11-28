@@ -10,19 +10,15 @@ public class PositiveInteraction implements Interaction {
 		this.second = new FeatureVector(second);
 	}
 	
-	@Override
-	public FeatureVector getFirst() {
+	@Override public FeatureVector getFirst() {
 		return first;
 	}
 
-	@Override
-	public FeatureVector getSecond() {
+	@Override public FeatureVector getSecond() {
 		return second;
 	}
 
-	@Override
-	public boolean getClassification() {
+	@Override public boolean getClassification() {
 		return true;
 	}
-
 }
