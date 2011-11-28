@@ -23,7 +23,7 @@ public class DIP {
 		}
 	}
 	
-	List<PositiveInteraction> getPositiveInteractions() {
+	List<PositiveInteraction> getInteractions() {
 		return interactions;
 	}
 }
