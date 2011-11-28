@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.zylman.protein.DIP.Field;
-
 public class FeatureVector {
 	String sequence;
 	ArrayList<Double> hydrophobicityArr = new ArrayList<Double>();
@@ -16,6 +14,7 @@ public class FeatureVector {
 	ArrayList<Double> sasaArr = new ArrayList<Double>();
 	ArrayList<Double> nciArr = new ArrayList<Double>();
 	
+	@SuppressWarnings("serial")
 	Map<Character, Double> hydrophobicity = new HashMap<Character, Double>(){{
 		put('A',0.62);
 		put('C',0.29);
@@ -38,6 +37,8 @@ public class FeatureVector {
 		put('W',0.81);
 		put('Y',0.26);		
 	}};
+	
+	@SuppressWarnings("serial")
 	Map<Character, Double> hydrophocility = new HashMap<Character, Double>(){{
 		put('A',-0.5);
 		put('C',-1.0);
@@ -60,6 +61,8 @@ public class FeatureVector {
 		put('W',-3.4);
 		put('Y',-2.3);
 	}};
+	
+	@SuppressWarnings("serial")
 	Map<Character, Double> volume = new HashMap<Character, Double>(){{
 		put('A',27.5);
 		put('C',44.6);
@@ -82,6 +85,8 @@ public class FeatureVector {
 		put('W',145.5);
 		put('Y',117.3);
 	}};
+	
+	@SuppressWarnings("serial")
 	Map<Character, Double> polarity = new HashMap<Character, Double>(){{
 		put('A',8.1);
 		put('C',5.5);
@@ -104,6 +109,8 @@ public class FeatureVector {
 		put('W',5.4);
 		put('Y',6.2);
 	}};
+	
+	@SuppressWarnings("serial")
 	Map<Character, Double> polarizability = new HashMap<Character, Double>(){{
 		put('A',0.046);
 		put('C',0.128);
@@ -126,6 +133,8 @@ public class FeatureVector {
 		put('W',0.409);
 		put('Y',0.298);
 	}};
+	
+	@SuppressWarnings("serial")
 	Map<Character, Double> SASA = new HashMap<Character, Double>(){{
 		put('A',1.181);
 		put('C',1.461);
@@ -148,6 +157,8 @@ public class FeatureVector {
 		put('W',2.663);
 		put('Y',2.368);
 	}};
+	
+	@SuppressWarnings("serial")
 	Map<Character, Double> NCI = new HashMap<Character, Double>(){{
 		put('A',0.007187);
 		put('C',-0.03661);
@@ -179,8 +190,7 @@ public class FeatureVector {
 		int sequenceLength = sequence.length();
 		
 		// Keep track of where we are in the feature array.
-		int featureArrayCurrIndex;
-		featureArrayCurrIndex = 0;
+		int featureArrayCurrIndex = 0;
 		
 		// Calculate the feature vector values
 		
