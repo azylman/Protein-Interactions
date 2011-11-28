@@ -16,6 +16,18 @@ public class Main {
 			enhancedDatabase.add(interaction);
 			enhancedDatabase.add(createNegativeInteraction(interaction));
 		}
+		
+		// split up dataset into testing and training set
+		
+		// write the sets to the disk
+		
+		// call svm light to create the model
+		
+		// classify our test set with our learned model
+		
+		// determine accuracy
+		
+		// train/test with different parameters/species?
 	}
 	
 	private static NegativeInteraction createNegativeInteraction(PositiveInteraction positiveInteraction) {
