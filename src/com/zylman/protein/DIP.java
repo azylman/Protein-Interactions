@@ -9,9 +9,9 @@ import java.util.List;
 
 public class DIP {
 	
-	static final Proteins sequences = new Proteins("fasta20101010.seq");
+	private static final Proteins sequences = new Proteins("fasta20101010.seq");
 	
-	List<Interaction> interactions = new ArrayList<Interaction>();
+	private List<PositiveInteraction> interactions = new ArrayList<PositiveInteraction>();
 	
 	DIP(String filePath) throws FileNotFoundException, IOException {
 		BufferedReader br = new BufferedReader(new FileReader(filePath));
@@ -21,5 +21,9 @@ public class DIP {
 			String[] fields = line.split("\t");
 			interactions.add(new PositiveInteraction(sequences.get(fields[0]), sequences.get(fields[1])));
 		}
+	}
+	
+	List<PositiveInteraction> getPositiveInteractions() {
+		return interactions;
 	}
 }
