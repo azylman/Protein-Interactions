@@ -9,14 +9,7 @@ import java.util.List;
 
 public class DIP {
 	
-	public class Interaction {
-		String first;
-		String second;
-		Interaction(String first, String second) {
-			this.first = first;
-			this.second = second;
-		}
-	}
+	static final Proteins sequences = new Proteins("fasta20101010.seq");
 	
 	List<Interaction> interactions = new ArrayList<Interaction>();
 	
@@ -26,7 +19,7 @@ public class DIP {
 		String line = br.readLine(); // Remove column headings
 		while ((line = br.readLine()) != null) {
 			String[] fields = line.split("\t");
-			interactions.add(new Interaction(fields[0], fields[1]));
+			interactions.add(new PositiveInteraction(sequences.get(fields[0]), sequences.get(fields[1])));
 		}
 	}
 }
