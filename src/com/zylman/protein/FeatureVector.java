@@ -225,7 +225,7 @@ public class FeatureVector {
 			}
 			
 			// Add the calculated value to the feature vector.
-			this.hydrophobicityArr.add(outsideVal * sum);
+			hydrophobicityArr.add(outsideVal * sum);
 			
 		}
 		
@@ -260,7 +260,7 @@ public class FeatureVector {
 			}
 			
 			// Add the calculated value to the feature vector.
-			this.hydrophocilityArr.add(outsideVal * sum);
+			hydrophocilityArr.add(outsideVal * sum);
 			
 		}
 		
@@ -295,7 +295,7 @@ public class FeatureVector {
 			}
 			
 			// Add the calculated value to the feature vector.
-			this.volumeArr.add(outsideVal * sum);
+			volumeArr.add(outsideVal * sum);
 			
 		}
 		
@@ -330,7 +330,7 @@ public class FeatureVector {
 			}
 			
 			// Add the calculated value to the feature vector.
-			this.polarityArr.add(outsideVal * sum);
+			polarityArr.add(outsideVal * sum);
 			
 		}
 		
@@ -365,7 +365,7 @@ public class FeatureVector {
 			}
 			
 			// Add the calculated value to the feature vector.
-			this.polarizabilityArr.add(outsideVal * sum);
+			polarizabilityArr.add(outsideVal * sum);
 			
 		}
 		
@@ -400,7 +400,7 @@ public class FeatureVector {
 			}
 			
 			// Add the calculated value to the feature vector.
-			this.sasaArr.add(outsideVal * sum);
+			sasaArr.add(outsideVal * sum);
 			
 		}
 		
@@ -435,7 +435,7 @@ public class FeatureVector {
 			}
 			
 			// Add the calculated value to the feature vector.
-			this.nciArr.add(outsideVal * sum);
+			nciArr.add(outsideVal * sum);
 			
 		}
 	}
