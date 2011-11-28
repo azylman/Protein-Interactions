@@ -7,13 +7,13 @@ import java.util.Map;
 
 public class FeatureVector {
 	String sequence;
-	ArrayList<Double> hydrophobicityArr = new ArrayList<Double>();
-	ArrayList<Double> hydrophocilityArr = new ArrayList<Double>();
-	ArrayList<Double> volumeArr = new ArrayList<Double>();
-	ArrayList<Double> polarityArr = new ArrayList<Double>();
-	ArrayList<Double> polarizabilityArr = new ArrayList<Double>();
-	ArrayList<Double> sasaArr = new ArrayList<Double>();
-	ArrayList<Double> nciArr = new ArrayList<Double>();
+	List<Double> hydrophobicityArr = new ArrayList<Double>();
+	List<Double> hydrophocilityArr = new ArrayList<Double>();
+	List<Double> volumeArr = new ArrayList<Double>();
+	List<Double> polarityArr = new ArrayList<Double>();
+	List<Double> polarizabilityArr = new ArrayList<Double>();
+	List<Double> sasaArr = new ArrayList<Double>();
+	List<Double> nciArr = new ArrayList<Double>();
 	
 	@SuppressWarnings("serial")
 	Map<Character, Double> hydrophobicity = new HashMap<Character, Double>(){{
