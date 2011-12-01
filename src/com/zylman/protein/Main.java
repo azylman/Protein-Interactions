@@ -1,6 +1,7 @@
 package com.zylman.protein;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class Main {
@@ -8,7 +9,13 @@ public class Main {
 		
 		List<Interaction> enhancedDatabase = new ArrayList<Interaction>();
 		
+		long startTime = new Date().getTime() / 1000;
+		
 		DIP dip = new DIP("dip20111027.txt");
+		
+		long endTime = new Date().getTime() / 1000;
+		
+		System.out.println("Found " + dip.getInteractions().size() + " interactions in " + (endTime - startTime) + "seconds");
 		
 		for (PositiveInteraction interaction : dip.getInteractions()) {
 			enhancedDatabase.add(interaction);

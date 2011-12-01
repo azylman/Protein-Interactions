@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DIP {
@@ -29,7 +30,14 @@ public class DIP {
 					String id2 = split2 != -1 ? fields[1].substring(0, fields[1].indexOf('|')) : fields[1];
 					String sequence1 = sequences.get(id1);
 					String sequence2 = sequences.get(id2);
-					interactions.add(new PositiveInteraction(sequence1, sequence2));
+					if (sequence1 != null && sequence2 != null)	{
+						System.out.print("Pairing " + id1 + " (length: " + sequence1.length()
+								+ ") and " + id2 + " (length: " + sequence2.length() + ") ");
+						long startTime = new Date().getTime();
+						interactions.add(new PositiveInteraction(sequence1, sequence2));
+						long endTime = new Date().getTime();
+						System.out.println("in " + (endTime - startTime) + " milliseconds");
+					}
 				}
 			} catch (IOException ex) {
 				System.out.println("IO exception reading DIP: " + ex.getMessage());

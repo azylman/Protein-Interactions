@@ -42,17 +42,17 @@ public class FeatureVector {
 		// Calculate the feature vector values
 		
 		// Go through each of the lag values
-		for(int lag=1; lag<=lg; lag++) {
+		for(int lag = 1; lag <= lg; lag++) {
 			double outsideVal = 1/(sequenceLength - lag);
 			double sum = 0;
 			
 			// Go through each of amino acids
-			for(int i=1; i<=sequenceLength-lag; i++) {
+			for(int i = 0; i < sequenceLength - lag; i++) {
 				
 				// Average value
 				double average;
 				average = 0;
-				for(int aa=0; aa<sequenceLength; aa++) {
+				for(int aa = 0; aa < sequenceLength; aa++) {
 					average += map.get(sequence.charAt(aa));
 				}
 				average /= sequenceLength;
