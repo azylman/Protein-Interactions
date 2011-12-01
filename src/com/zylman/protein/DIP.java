@@ -13,13 +13,23 @@ public class DIP {
 	
 	private List<PositiveInteraction> interactions = new ArrayList<PositiveInteraction>();
 	
-	DIP(String filePath) throws FileNotFoundException, IOException {
-		BufferedReader br = new BufferedReader(new FileReader(filePath));
+	DIP(String filePath) {
+		BufferedReader br;
 		
-		String line = br.readLine(); // Remove column headings
-		while ((line = br.readLine()) != null) {
-			String[] fields = line.split("\t");
-			interactions.add(new PositiveInteraction(sequences.get(fields[0]), sequences.get(fields[1])));
+		try {
+			br = new BufferedReader(new FileReader(filePath));
+			String line;
+			try {
+				line = br.readLine(); // Remove column headings
+				while ((line = br.readLine()) != null) {
+					String[] fields = line.split("\t");
+					interactions.add(new PositiveInteraction(sequences.get(fields[0]), sequences.get(fields[1])));
+				}
+			} catch (IOException ex) {
+				System.out.println("IO exception reading DIP: " + ex.getMessage());
+			} 
+		} catch (FileNotFoundException ex) {
+			System.out.println("FNF exception reading DIP: " + ex.getMessage());
 		}
 	}
 	

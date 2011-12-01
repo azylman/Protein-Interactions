@@ -22,13 +22,13 @@ public class Proteins {
 				while ((line = br.readLine()) != null) {
 					String[] id = line.split(">dip:");
 					String sequence = br.readLine();
-					proteins.put(id[0], sequence);
+					proteins.put(id[1], sequence);
 				}
 			} catch (IOException ex) {
-				// error handling
+				System.out.println("IO exception reading proteins: " + ex.getMessage());
 			}
 		} catch (FileNotFoundException ex) {
-			// error handling
+			System.out.println("FNF exception reading proteins: " + ex.getMessage());
 		}
 	}
 	
