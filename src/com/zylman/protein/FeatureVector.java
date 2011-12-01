@@ -46,7 +46,12 @@ public class FeatureVector {
 			// Average value
 			double average = 0;
 			for(int i = 0; i < sequenceLength; i++) {
-				average += map.get(sequence.charAt(i));
+				Character ch = sequence.charAt(i);
+				Double val = map.get(ch);
+				if (val == null) {
+					System.out.println("Value for character " + ch + " is null");
+				}
+				average += val;
 			}
 			average /= sequenceLength;
 			

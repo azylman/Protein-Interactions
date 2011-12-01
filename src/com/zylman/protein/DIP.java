@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DIP {
@@ -22,6 +21,9 @@ public class DIP {
 			String line;
 			try {
 				line = br.readLine(); // Remove column headings
+				
+				int interactionsAdded = 0;
+				
 				while ((line = br.readLine()) != null) {
 					String[] fields = line.split("\t");
 					int split1 = fields[0].indexOf('|');
@@ -31,12 +33,14 @@ public class DIP {
 					String sequence1 = sequences.get(id1);
 					String sequence2 = sequences.get(id2);
 					if (sequence1 != null && sequence2 != null)	{
-						System.out.print("Pairing " + id1 + " (length: " + sequence1.length()
-								+ ") and " + id2 + " (length: " + sequence2.length() + ") ");
-						long startTime = new Date().getTime();
-						interactions.add(new PositiveInteraction(sequence1, sequence2));
-						long endTime = new Date().getTime();
-						System.out.println("in " + (endTime - startTime) + " milliseconds");
+						String filteredSeq1 = sequence1.replaceAll("[^BJOUXZ]", "");
+						String filteredSeq2 = sequence2.replaceAll("[^BJOUXZ]", "");
+						if (filteredSeq1.length() == 0 && filteredSeq2.length() == 0) {
+							interactions.add(new PositiveInteraction(sequence1, sequence2));
+							if (interactionsAdded++ % 1000 == 0) {
+								System.out.println("Added " + interactionsAdded + " so far");
+							}
+						}
 					}
 				}
 			} catch (IOException ex) {
