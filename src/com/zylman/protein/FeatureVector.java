@@ -35,11 +35,8 @@ public class FeatureVector {
 	}
 	
 	private void calculateCrossCovariance(String sequence, Map<Character, Double> map, List<Double> list) {
-		int lg = 30; // Can change this -- optimize!
 		int sequenceLength = sequence.length();
-		
-		
-		// Calculate the feature vector values
+		int lg = Math.min(30, sequenceLength - 1); // Can change this -- optimize!
 		
 		// Go through each of the lag values
 		for(int lag = 1; lag <= lg; lag++) {
