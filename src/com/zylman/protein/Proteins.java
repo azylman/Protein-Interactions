@@ -22,7 +22,9 @@ public class Proteins {
 				while ((line = br.readLine()) != null) {
 					String[] id = line.split(">dip:");
 					String sequence = br.readLine();
-					proteins.put(id[1], sequence);
+					int split = id[1].indexOf('|');
+					String dipId = split != -1 ? id[1].substring(0, split) : id[1];
+					proteins.put(dipId, sequence);
 				}
 			} catch (IOException ex) {
 				System.out.println("IO exception reading proteins: " + ex.getMessage());
