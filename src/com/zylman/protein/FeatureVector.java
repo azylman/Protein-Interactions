@@ -46,16 +46,15 @@ public class FeatureVector {
 			double outsideVal = 1/(sequenceLength - lag);
 			double sum = 0;
 			
+			// Average value
+			double average = 0;
+			for(int i = 0; i < sequenceLength; i++) {
+				average += map.get(sequence.charAt(i));
+			}
+			average /= sequenceLength;
+			
 			// Go through each of amino acids
 			for(int i = 0; i < sequenceLength - lag; i++) {
-				
-				// Average value
-				double average;
-				average = 0;
-				for(int aa = 0; aa < sequenceLength; aa++) {
-					average += map.get(sequence.charAt(aa));
-				}
-				average /= sequenceLength;
 				
 				// Left term inside the sum
 				double leftTerm = map.get(sequence.charAt(i)) - average;
