@@ -38,7 +38,8 @@ public class DIP {
 						if (filteredSeq1.length() == 0 && filteredSeq2.length() == 0) {
 							interactions.add(new PositiveInteraction(sequence1, sequence2));
 							if (interactionsAdded++ % 1000 == 0) {
-								System.out.println("Added " + interactionsAdded + " so far");
+								System.out.println("Added " + interactionsAdded + " interactions so far");
+								break;
 							}
 						}
 					}
