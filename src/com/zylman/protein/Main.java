@@ -22,11 +22,8 @@ public class Main {
 				System.out.println("Found " + dip.getInteractions().size() + " interactions comprising "
 						+ sequences.getProteins().size() + " proteins in " + (endTime - startTime) + " seconds"); 
 				
-				List<Protein> proteinList = new ArrayList<Protein>(sequences.getProteins());
-				
 				startTime = new Date().getTime() / 1000;
-				//pDb.addProteinList(sequences.getProteins());
-				pDb.addProtein(proteinList.get(0));
+				pDb.addProteinList(sequences.getProteins());
 				endTime = new Date().getTime() / 1000;
 				System.out.println("Took " + (endTime + startTime) + " seconds to add the proteins to the database");
 				

@@ -72,7 +72,7 @@ public class FeatureVector {
 		
 		// Go through each of the lag values
 		for(int lag = 1; lag <= lg; lag++) {
-			double outsideVal = 1/(sequenceLength - lag);
+			double outsideVal = (double)1/(double)(sequenceLength - lag);
 			double sum = 0;
 			
 			// Average value
@@ -85,7 +85,7 @@ public class FeatureVector {
 				}
 				average += val;
 			}
-			average /= sequenceLength;
+			average /= (double)sequenceLength;
 			
 			// Go through each of amino acids
 			for(int i = 0; i < sequenceLength - lag; i++) {
