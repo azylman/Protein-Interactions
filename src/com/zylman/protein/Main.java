@@ -41,7 +41,7 @@ public class Main {
 	}
 	
 	private static NegativeInteraction createNegativeInteraction(PositiveInteraction positiveInteraction) {
-		return new NegativeInteraction(shuffle(positiveInteraction.getFirst().getSequence()), positiveInteraction.getSecond().getSequence());
+		return new NegativeInteraction(shuffle(positiveInteraction.getFirst()), positiveInteraction.getSecond());
 	}
 	
 	private static String shuffle(String sequence) {
