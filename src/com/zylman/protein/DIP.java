@@ -37,8 +37,11 @@ public class DIP {
 					String filteredSeq1 = posSequence1.replaceAll("[^BJOUXZ]", "");
 					String filteredSeq2 = posSequence2.replaceAll("[^BJOUXZ]", "");
 					if (filteredSeq1.length() == 0 && filteredSeq2.length() == 0) {
-						positiveInteractions.add(new PositiveInteraction(posSequence1, posSequence2));
-						negativeInteractions.add(new NegativeInteraction(posSequence1, negSequence));
+						Protein posProtein1 = new Protein(id1, posSequence1);
+						Protein posProtein2 = new Protein(id2, posSequence2);
+						Protein negProtein = new Protein(id2, negSequence);
+						positiveInteractions.add(new PositiveInteraction(posProtein1, posProtein2));
+						negativeInteractions.add(new NegativeInteraction(posProtein1, negProtein));
 						if (interactionsAdded++ % 1000 == 0) {
 							System.out.println("Added " + interactionsAdded + " positive and negative interactions so far");
 						}

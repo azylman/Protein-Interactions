@@ -2,19 +2,19 @@ package com.zylman.protein;
 
 public abstract class Interaction {
 	
-	private String first;
-	private String second;
+	private Protein first;
+	private Protein second;
 	
-	Interaction(String first, String second) {
-		this.first = first.compareTo(second) == -1 ? first : second;
-		this.second = first.compareTo(second) == -1 ? second : first;
+	Interaction(Protein first, Protein second) {
+		this.first = first.getId().compareTo(second.getId()) == -1 ? first : second;
+		this.second = first.getId().compareTo(second.getId()) == -1 ? second : first;
 	}
 	
-	String getFirst() {
+	Protein getFirst() {
 		return first;
 	}
 	
-	String getSecond() {
+	Protein getSecond() {
 		return second;
 	}
 	

@@ -2,7 +2,7 @@ package com.zylman.protein;
 
 public class NegativeInteraction extends Interaction {
 
-	NegativeInteraction(String first, String second) {
+	NegativeInteraction(Protein first, Protein second) {
 		super(first, second);
 	}
 

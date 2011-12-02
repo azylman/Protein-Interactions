@@ -14,6 +14,5 @@ public class Main {
 		System.out.println("Found " + dip.getPositiveInteractions().size() + " positive interactions and "
 				+ dip.getNegativeInteractions().size() + " negative interactions "
 				+ "in " + (endTime - startTime) + " seconds");
-		
 	}
 }
