@@ -30,14 +30,15 @@ public class Proteins {
 			
 			String line;
 			String idWorkingOn = "";
-			String sequenceWorkingOn = "";
+			StringBuilder sequenceWorkingOn = new StringBuilder();
 			while ((line = br.readLine()) != null) {
 				if (line.indexOf(">") != -1) {
-					
-					if (!idWorkingOn.equals("")) {
-						String filteredSequence = sequenceWorkingOn.replaceAll("[^BJOUXZ]", "");
-						if (filteredSequence.length() == 0) map.put(idWorkingOn, new Protein(idWorkingOn, sequenceWorkingOn));
-						sequenceWorkingOn = "";
+					if (!idWorkingOn.equals("") && sequenceWorkingOn.length() < 60000) {
+						//String filteredSequence = sequenceWorkingOn.replaceAll("[^BJOUXZ]", "");
+						String sequence = sequenceWorkingOn.toString();
+						String filteredSequence = sequence.replaceAll("[^ACDEFGHIKLMNPQRSTVWY]", "");
+						if (filteredSequence.length() == sequenceWorkingOn.length()) map.put(idWorkingOn, new Protein(idWorkingOn, sequence));
+						sequenceWorkingOn = new StringBuilder();
 					}
 					
 					String[] id = line.split(">dip:");
@@ -48,7 +49,7 @@ public class Proteins {
 					idWorkingOn = split != -1 ? id[1].substring(0, split) : id[1];
 					if (shuffled) idWorkingOn += "-S";
 				} else {
-					sequenceWorkingOn += line;
+					sequenceWorkingOn.append(line);
 				}
 			}
 		} catch (FileNotFoundException ex) {

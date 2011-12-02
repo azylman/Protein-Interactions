@@ -62,8 +62,12 @@ public class ProteinDatabase {
 	}
 	
 	public void addProteinList(Iterable<Protein> proteins) throws ProteinException {
+		int proteinsAdded = 0;
 		for (Protein protein : proteins) {
 			addProtein(protein);
+			if (proteinsAdded++ % 1000 == 0) {
+				System.out.println("Added " + proteinsAdded + " proteins to the database so far");
+			}
 		}
 	}
 	
@@ -78,15 +82,18 @@ public class ProteinDatabase {
 			try {
 				Statement s = getStatement(false);
 				
-				protein.createFeatureVector();
+				// We're going to try it without storing the feature vector to hopefully save on memory space
+				//protein.createFeatureVector();
 
-				List<Double> hydrophobicityList = protein.getFeatureVector().getHydrophobicity();
-				List<Double> hydrophocilityList = protein.getFeatureVector().getHydrophicility();
-				List<Double> volumeList = protein.getFeatureVector().getVolume();
-				List<Double> polarityList = protein.getFeatureVector().getPolarity();
-				List<Double> polarizabilityList = protein.getFeatureVector().getPolarizability();
-				List<Double> SASAList = protein.getFeatureVector().getSASA();
-				List<Double> NCIList = protein.getFeatureVector().getNCI();
+				FeatureVector fv = new FeatureVector(protein.getSequence());
+				
+				List<Double> hydrophobicityList = fv.getHydrophobicity();
+				List<Double> hydrophocilityList = fv.getHydrophicility();
+				List<Double> volumeList = fv.getVolume();
+				List<Double> polarityList = fv.getPolarity();
+				List<Double> polarizabilityList = fv.getPolarizability();
+				List<Double> SASAList = fv.getSASA();
+				List<Double> NCIList = fv.getNCI();
 				
 				String dipId = protein.getId();
 				String sequence = protein.getSequence();
@@ -102,11 +109,11 @@ public class ProteinDatabase {
 						+ convertStringsToCommaDelimitedString(dipId, sequence, hydrophobicity, hydrophocility, volume, polarity, polarizability, SASA, NCI)
 						+ ")";
 				
-				System.out.println(insert);
+				//System.out.println(insert);
 				s.execute(insert);				
 				s.close();
 			} catch (SQLException ex) {
-				System.out.println("SQL Exception: " + ex.getMessage());
+				System.out.println("SQL Exception on protein " + protein.getId() + " (" + protein.getSequence() + "): " + ex.getMessage());
 				throw new ProteinException(
 						ex,
 						"ProteinDatabase.addProtein(): SQL exception encounted while trying to enter following protein into database: \n" + protein.toString());
@@ -217,7 +224,7 @@ public class ProteinDatabase {
 			@SuppressWarnings("serial")
 			Map<String, String> tableFields = new LinkedHashMap<String, String>() {{
 				put("dip_id", "VARCHAR(128)");
-				put("sequence", "VARCHAR(20000)");
+				put("sequence", "VARCHAR(30000)");
 				put("hydrophobicity", "VARCHAR(" + featureColumnSize + ")");
 				put("hydrophocility", "VARCHAR(" + featureColumnSize + ")");
 				put("volume", "VARCHAR(" + featureColumnSize + ")");
@@ -297,15 +304,15 @@ public class ProteinDatabase {
 	}
 	
 	private static String convertStringsToCommaDelimitedString(String... strings) {
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		for (String string : strings) {
-			out += "'";
-			out += string;
-			out += "'";
-			out += ",";
+			out.append("'");
+			out.append(string);
+			out.append("'");
+			out.append(",");
 		}
-		out = out.substring(0, out.length() - 1);
-		return out;
+		out.deleteCharAt(out.length() - 1);
+		return out.toString();
 	}
 	
 	private static String convertStringListToSemicolonDelimitedString(Collection<String> collection)
