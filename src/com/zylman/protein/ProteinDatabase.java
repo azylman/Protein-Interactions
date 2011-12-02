@@ -30,7 +30,8 @@ public class ProteinDatabase {
 	//database properties
 	private static final String PROTEINS_TABLE_NAME = "proteins";
 	private static final String INTERACTIONS_TABLE_NAME = "interactions";
-	private List<String> tables = new ArrayList<String>(Arrays.asList(PROTEINS_TABLE_NAME, INTERACTIONS_TABLE_NAME));
+	private static final String SEQUENCES_TABLE_NAME = "sequences";
+	private List<String> tables = new ArrayList<String>(Arrays.asList(PROTEINS_TABLE_NAME, INTERACTIONS_TABLE_NAME, SEQUENCES_TABLE_NAME));
 	private Map<String, Boolean> tableStatus = new HashMap<String, Boolean>();
 	
 	//column info
@@ -106,11 +107,18 @@ public class ProteinDatabase {
 				String NCI = convertStringListToSemicolonDelimitedString(convertDoubleListToStringList(NCIList));
 				
 				String insert = "INSERT INTO " + PROTEINS_TABLE_NAME + " VALUES("
-						+ convertStringsToCommaDelimitedString(dipId, sequence, hydrophobicity, hydrophocility, volume, polarity, polarizability, SASA, NCI)
+						+ convertStringsToCommaDelimitedString(dipId, hydrophobicity, hydrophocility, volume, polarity, polarizability, SASA, NCI)
 						+ ")";
 				
 				//System.out.println(insert);
-				s.execute(insert);				
+				s.execute(insert);
+				
+				insert = "INSERT INTO " + SEQUENCES_TABLE_NAME + " VALUES("
+						+ convertStringsToCommaDelimitedString(dipId, sequence)
+						+ ")";
+				
+				s.execute(insert);
+				
 				s.close();
 			} catch (SQLException ex) {
 				System.out.println("SQL Exception on protein " + protein.getId() + " (" + protein.getSequence() + "): " + ex.getMessage());
@@ -209,6 +217,8 @@ public class ProteinDatabase {
 			createProteinTable();
 		} else if (tableName.equals(INTERACTIONS_TABLE_NAME)) {
 			createInteractionsTable();
+		} else if (tableName.equals(SEQUENCES_TABLE_NAME)) {
+			createSequenceTable();
 		}
 	}
 	
@@ -224,7 +234,6 @@ public class ProteinDatabase {
 			@SuppressWarnings("serial")
 			Map<String, String> tableFields = new LinkedHashMap<String, String>() {{
 				put("dip_id", "VARCHAR(128)");
-				put("sequence", "VARCHAR(30000)");
 				put("hydrophobicity", "VARCHAR(" + featureColumnSize + ")");
 				put("hydrophocility", "VARCHAR(" + featureColumnSize + ")");
 				put("volume", "VARCHAR(" + featureColumnSize + ")");
@@ -292,6 +301,42 @@ public class ProteinDatabase {
 		} catch (SQLException e) {
 			System.err.println(e.getMessage());
 			throw new ProteinException(e, "ProteinDatabase.createInteractionsTable(): SQL error in trying to create interactions table");
+		}
+	}
+	
+	private boolean createSequenceTable() throws ProteinException {
+		if (hasTable(SEQUENCES_TABLE_NAME)) {
+			System.err.println("Could not create '" + INTERACTIONS_TABLE_NAME + "' table, because table already exists in database");
+			return false;
+		}
+		
+		try {
+			@SuppressWarnings("serial")
+			Map<String, String> tableFields = new LinkedHashMap<String, String>() {{
+				put("dip_id", "VARCHAR(128)");
+				put("sequence", "VARCHAR(60000)");
+			}};
+			
+			String create = "CREATE TABLE " + SEQUENCES_TABLE_NAME + "(";
+			for (Map.Entry<String, String> field : tableFields.entrySet()) {
+				create += field.getKey() + " " + field.getValue() + ", ";
+			}
+			
+			create = create.substring(0, create.length() - 2);
+			create += ")";
+			
+			Statement s = this.getStatement(false);
+			s.execute(create);
+			s.execute("ALTER TABLE " + SEQUENCES_TABLE_NAME + " ADD INDEX (dip_id)");
+			
+			s.close();
+			System.out.println("ProteinDatabase.createSequenceTable(): successfully created interactions table.");
+			this.tableStatus.put(SEQUENCES_TABLE_NAME, true);
+			
+			return true;
+		} catch (SQLException e) {
+			System.err.println(e.getMessage());
+			throw new ProteinException(e, "ProteinDatabase.createSequenceTable(): SQL error in trying to create interactions table");
 		}
 	}
 
