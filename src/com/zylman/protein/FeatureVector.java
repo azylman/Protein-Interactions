@@ -14,6 +14,38 @@ public class FeatureVector {
 	List<Double> polarizabilityArr = new ArrayList<Double>();
 	List<Double> sasaArr = new ArrayList<Double>();
 	List<Double> nciArr = new ArrayList<Double>();
+	
+	String getSequence() {
+		return sequence;
+	}
+	
+	List<Double> getHydrophobicity() {
+		return hydrophobicityArr;
+	}
+	
+	List<Double> getHydrophicility() {
+		return hydrophocilityArr;
+	}
+	
+	List<Double> getVolume() {
+		return volumeArr;
+	}
+	
+	List<Double> getPolarity() {
+		return polarityArr;
+	}
+	
+	List<Double> getPolarizability() {
+		return polarizabilityArr;
+	}
+	
+	List<Double> getSASA() {
+		return sasaArr;
+	}
+	
+	List<Double> getNCI() {
+		return nciArr;
+	}
 
 	FeatureVector(String sequence) {
 		// Store the sequence.
@@ -72,10 +104,6 @@ public class FeatureVector {
 			// Add the calculated value to the feature vector.
 			list.add(outsideVal * sum);
 		}
-	}
-	
-	String getSequence() {
-		return sequence;
 	}
 	
 	@SuppressWarnings("serial")
