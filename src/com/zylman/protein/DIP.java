@@ -9,13 +9,11 @@ import java.util.List;
 
 public class DIP {
 	
-	private static final Proteins sequences = new Proteins("fasta20101010.seq");
-	
 	private List<PositiveInteraction> positiveInteractions = new ArrayList<PositiveInteraction>();
 	private List<NegativeInteraction> negativeInteractions = new ArrayList<NegativeInteraction>();
 	private List<Interaction> interactions = new ArrayList<Interaction>();
 	
-	DIP(String filePath) {
+	DIP(String filePath, Proteins sequences) {
 		BufferedReader br = null;
 		
 		try {
@@ -30,21 +28,15 @@ public class DIP {
 				int split2 = fields[1].indexOf('|');
 				String id1 = split1 != -1 ? fields[0].substring(0, fields[0].indexOf('|')) : fields[0];
 				String id2 = split2 != -1 ? fields[1].substring(0, fields[1].indexOf('|')) : fields[1];
-				String posSequence1 = sequences.get(id1);
-				String posSequence2 = sequences.get(id2);
-				String negSequence = sequences.getShuffled(id2);
-				if (posSequence1 != null && posSequence2 != null && negSequence != null) {
-					String filteredSeq1 = posSequence1.replaceAll("[^BJOUXZ]", "");
-					String filteredSeq2 = posSequence2.replaceAll("[^BJOUXZ]", "");
-					if (filteredSeq1.length() == 0 && filteredSeq2.length() == 0) {
-						Protein posProtein1 = new Protein(id1, posSequence1);
-						Protein posProtein2 = new Protein(id2, posSequence2);
-						Protein negProtein = new Protein(id2, negSequence);
-						positiveInteractions.add(new PositiveInteraction(posProtein1, posProtein2));
-						negativeInteractions.add(new NegativeInteraction(posProtein1, negProtein));
-						if (interactionsAdded++ % 1000 == 0) {
-							System.out.println("Added " + interactionsAdded + " positive and negative interactions so far");
-						}
+				Protein posProtein1 = sequences.get(id1);
+				Protein posProtein2 = sequences.get(id2);
+				String negId = id2 + "-S";
+				Protein negProtein = sequences.get(negId);
+				if (posProtein1 != null && posProtein2 != null && negProtein != null) {
+					positiveInteractions.add(new PositiveInteraction(posProtein1, posProtein2));
+					negativeInteractions.add(new NegativeInteraction(posProtein1, negProtein));
+					if (interactionsAdded++ % 1000 == 0) {
+						System.out.println("Added " + interactionsAdded + " positive and negative interactions so far");
 					}
 				}
 			}

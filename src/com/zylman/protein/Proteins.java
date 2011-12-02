@@ -4,21 +4,25 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Proteins {
 	
-	Map<String, String> proteins = new HashMap<String, String>();
-	Map<String, String> shuffledProteins = new HashMap<String, String>();
+	Map<String, Protein> realProteins = new HashMap<String, Protein>();
+	Map<String, Protein> shuffledProteins = new HashMap<String, Protein>();
+	Map<String, Protein> proteins = new HashMap<String, Protein>();
 	
 	Proteins(String filePath) {
-		readFastaFileIntoMap(filePath, proteins);
+		readFastaFileIntoMap(filePath, realProteins, false);
 		String shuffledFilePath = "shuffled-" + filePath;
-		readFastaFileIntoMap(shuffledFilePath, shuffledProteins);
+		readFastaFileIntoMap(shuffledFilePath, shuffledProteins, true);
+		proteins.putAll(realProteins);
+		proteins.putAll(shuffledProteins);
 	}
 	
-	private void readFastaFileIntoMap(String filePath, Map<String, String> map) {
+	private void readFastaFileIntoMap(String filePath, Map<String, Protein> map, boolean shuffled) {
 		BufferedReader br = null;
 		
 		try {
@@ -31,7 +35,8 @@ public class Proteins {
 				if (line.indexOf(">") != -1) {
 					
 					if (!idWorkingOn.equals("")) {
-						map.put(idWorkingOn, sequenceWorkingOn);
+						String filteredSequence = sequenceWorkingOn.replaceAll("[^BJOUXZ]", "");
+						if (filteredSequence.length() == 0) map.put(idWorkingOn, new Protein(idWorkingOn, sequenceWorkingOn));
 						sequenceWorkingOn = "";
 					}
 					
@@ -41,6 +46,7 @@ public class Proteins {
 					}
 					int split = id[1].indexOf('|');
 					idWorkingOn = split != -1 ? id[1].substring(0, split) : id[1];
+					if (shuffled) idWorkingOn += "-S";
 				} else {
 					sequenceWorkingOn += line;
 				}
@@ -60,11 +66,11 @@ public class Proteins {
 		}
 	}
 	
-	String get(String id) {
+	Protein get(String id) {
 		return proteins.get(id);
 	}
 	
-	String getShuffled(String id) {
-		return shuffledProteins.get(id);
+	Collection<Protein> getProteins() {
+		return proteins.values();
 	}
 }
