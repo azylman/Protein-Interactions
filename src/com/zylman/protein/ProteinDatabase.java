@@ -137,7 +137,7 @@ public class ProteinDatabase {
 				Statement s = getStatement(false);
 				
 				String insert = "INSERT INTO " + INTERACTIONS_TABLE_NAME + " VALUES("
-						+ convertStringsToCommaDelimitedString(interaction.getFirst().getId(), interaction.getSecond().getId(), Integer.toString(interaction.getClassification() ? 1 : 0))
+						+ convertStringsToCommaDelimitedString(interaction.getFirst(), interaction.getSecond(), Integer.toString(interaction.getClassification() ? 1 : 0))
 						+ ")";
 				
 				System.out.println(insert);
@@ -150,6 +150,63 @@ public class ProteinDatabase {
 			}
 		} else {
 			throw new ProteinException("ProteinDatabase.addInteraction(): Missing one or more required tables");
+		}
+	}
+	
+	Map<String, FeatureVector> getProteins() throws ProteinException {
+		Map<String, FeatureVector> result = new HashMap<String, FeatureVector>();
+		
+		Statement s = getStatement(false);
+		try {
+			ResultSet r = s.executeQuery("SELECT * FROM " + PROTEINS_TABLE_NAME);
+			while (r.next()) {
+				String dipIdString = r.getString(1);
+				String hydrophobicityString = r.getString(2);
+				String hydrophocilityString = r.getString(3);
+				String volumeString = r.getString(4);
+				String polarityString = r.getString(5);
+				String polarizabilityString = r.getString(6);
+				String SASAString = r.getString(7);
+				String NCIString = r.getString(8);
+				
+				List<Double> hydrophobicity = convertStringListToDoubleList(convertSemicolonDelimitedStringToStringList(hydrophobicityString));
+				List<Double> hydrophocility = convertStringListToDoubleList(convertSemicolonDelimitedStringToStringList(hydrophocilityString));
+				List<Double> volume = convertStringListToDoubleList(convertSemicolonDelimitedStringToStringList(volumeString));
+				List<Double> polarity = convertStringListToDoubleList(convertSemicolonDelimitedStringToStringList(polarityString));
+				List<Double> polarizability = convertStringListToDoubleList(convertSemicolonDelimitedStringToStringList(polarizabilityString));
+				List<Double> SASA = convertStringListToDoubleList(convertSemicolonDelimitedStringToStringList(SASAString));
+				List<Double> NCI = convertStringListToDoubleList(convertSemicolonDelimitedStringToStringList(NCIString));
+				result.put(dipIdString, new FeatureVector(hydrophobicity, hydrophocility, volume, polarity, polarizability, SASA, NCI));
+			}
+			
+			return result;
+			
+		} catch (SQLException ex) {
+			throw new ProteinException(
+					ex,
+					"ProteinDatabase.getProteins(): SQL exception encountered while trying to get proteins from the database");
+		}
+	}
+	
+	List<Interaction> getInteractions() throws ProteinException {
+		List<Interaction> result = new ArrayList<Interaction>();
+		
+		Statement s = getStatement(false);
+		try {
+			ResultSet r = s.executeQuery("SELECT * FROM " + INTERACTIONS_TABLE_NAME);
+			while (r.next()) {
+				String dipId1 = r.getString(1);
+				String dipId2 = r.getString(2);
+				Boolean classification = r.getBoolean(3);
+				
+				result.add(new Interaction(dipId1, dipId2, classification));
+			}
+			
+			return result;
+		} catch (SQLException ex) {
+			throw new ProteinException(
+					ex,
+					"ProteinDatabase.getInteractions(): SQL exception encountered while trying to get interactions from the database");
 		}
 	}
 	
@@ -348,6 +405,14 @@ public class ProteinDatabase {
 		return output;
 	}
 	
+	private static List<Double> convertStringListToDoubleList(List<String> list) {
+		List<Double> output = new ArrayList<Double>();
+		for (String string : list) {
+			output.add(Double.parseDouble(string));
+		}
+		return output;
+	}
+	
 	private static String convertStringsToCommaDelimitedString(String... strings) {
 		StringBuilder out = new StringBuilder();
 		for (String string : strings) {
@@ -376,6 +441,19 @@ public class ProteinDatabase {
 		}
 		
 		return builder.toString();	
+	}
+	
+	private static List<String> convertSemicolonDelimitedStringToStringList(String list) {
+		List<String> result = new ArrayList<String>();
+		
+		String[] strings = list.split(";");
+		for (String string : strings) {
+			if (!string.isEmpty()) {
+				result.add(string);
+			}
+		}
+		
+		return result;
 	}
 
 	private Statement getStatement(boolean editable) throws ProteinException

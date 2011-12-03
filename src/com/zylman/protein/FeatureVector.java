@@ -66,6 +66,23 @@ public class FeatureVector {
 		calculateCrossCovariance(sequence, NCI, nciArr);
 	}
 	
+	FeatureVector(
+			List<Double> hydophobicity,
+			List<Double> hydrophocility,
+			List<Double> volume,
+			List<Double> polarity,
+			List<Double> polarizability,
+			List<Double> SASA,
+			List<Double> NCI) {
+		hydrophobicityArr = hydophobicity;
+		hydrophocilityArr = hydrophocility;
+		volumeArr = volume;
+		polarityArr = polarity;
+		polarizabilityArr = polarizability;
+		sasaArr = SASA;
+		nciArr = NCI;
+	}
+	
 	private void calculateCrossCovariance(String sequence, Map<Character, Double> map, List<Double> list) {
 		int sequenceLength = sequence.length();
 		int lg = Math.min(30, sequenceLength - 1); // Can change this -- optimize!

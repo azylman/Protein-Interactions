@@ -33,8 +33,8 @@ public class DIP {
 				String negId = id2 + "-S";
 				Protein negProtein = sequences.get(negId);
 				if (posProtein1 != null && posProtein2 != null && negProtein != null) {
-					positiveInteractions.add(new PositiveInteraction(posProtein1, posProtein2));
-					negativeInteractions.add(new NegativeInteraction(posProtein1, negProtein));
+					positiveInteractions.add(new PositiveInteraction(posProtein1.getId(), posProtein2.getId()));
+					negativeInteractions.add(new NegativeInteraction(posProtein1.getId(), negProtein.getId()));
 					if (interactionsAdded++ % 1000 == 0) {
 						System.out.println("Added " + interactionsAdded + " positive and negative interactions so far");
 					}

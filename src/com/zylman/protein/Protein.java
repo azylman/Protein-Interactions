@@ -27,9 +27,7 @@ public class Protein {
 		return featureVector;
 	}
 	
-	public void createFeatureVector() {
-		if (featureVector == null) {
-			featureVector = new FeatureVector(sequence);
-		}
+	public FeatureVector setFeatureVector() {
+		return featureVector;
 	}
 }

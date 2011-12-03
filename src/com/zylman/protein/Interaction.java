@@ -1,22 +1,30 @@
 package com.zylman.protein;
 
-public abstract class Interaction {
+public class Interaction {
 	
-	private Protein first;
-	private Protein second;
+	private String first;
+	private String second;
+	private Boolean classification;
 	
-	Interaction(Protein first, Protein second) {
-		this.first = first.getId().compareTo(second.getId()) == -1 ? first : second;
-		this.second = first.getId().compareTo(second.getId()) == -1 ? second : first;
+	Interaction(String first, String second) {
+		this(first, second, null);
 	}
 	
-	Protein getFirst() {
+	Interaction(String first, String second, Boolean classification) {
+		this.first = first.compareTo(second) == -1 ? first : second;
+		this.second = first.compareTo(second) == -1 ? second : first;
+		this.classification = classification;
+	}
+	
+	String getFirst() {
 		return first;
 	}
 	
-	Protein getSecond() {
+	String getSecond() {
 		return second;
 	}
 	
-	abstract boolean getClassification();
+	boolean getClassification() {
+		return classification;
+	}
 }
