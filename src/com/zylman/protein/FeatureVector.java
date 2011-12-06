@@ -87,22 +87,22 @@ public class FeatureVector {
 		int sequenceLength = sequence.length();
 		int lg = Math.min(30, sequenceLength - 1); // Can change this -- optimize!
 		
+		// Average value
+		double average = 0;
+		for(int i = 0; i < sequenceLength; i++) {
+			Character ch = sequence.charAt(i);
+			Double val = map.get(ch);
+			if (val == null) {
+				System.out.println("Value for character " + ch + " is null");
+			}
+			average += val;
+		}
+		average /= (double)sequenceLength;
+		
 		// Go through each of the lag values
 		for(int lag = 1; lag <= lg; lag++) {
 			double outsideVal = (double)1/(double)(sequenceLength - lag);
 			double sum = 0;
-			
-			// Average value
-			double average = 0;
-			for(int i = 0; i < sequenceLength; i++) {
-				Character ch = sequence.charAt(i);
-				Double val = map.get(ch);
-				if (val == null) {
-					System.out.println("Value for character " + ch + " is null");
-				}
-				average += val;
-			}
-			average /= (double)sequenceLength;
 			
 			// Go through each of amino acids
 			for(int i = 0; i < sequenceLength - lag; i++) {
