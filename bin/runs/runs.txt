@@ -1,0 +1,75 @@
+1
+full feature set
+linear kernel
+Accuracy on test set: 72.56% (48813 correct, 18463 incorrect, 67276 total)
+Precision/recall on test set: 75.15%/67.41%
+
+2
+missing hydrophobicity
+linear kernel
+Accuracy on test set: 72.40% (48710 correct, 18566 incorrect, 67276 total)
+Precision/recall on test set: 74.92%/67.35%
+
+3
+missing hydrophicility
+linear kernel
+Accuracy on test set: 72.29% (48634 correct, 18642 incorrect, 67276 total)
+Precision/recall on test set: 74.90%/67.04%
+
+4
+missing volume
+linear kernel
+Accuracy on test set: 71.79% (48299 correct, 18977 incorrect, 67276 total)
+Precision/recall on test set: 74.76%/65.80%
+
+5
+missing polarity
+linear kernel
+Accuracy on test set: 71.92% (48388 correct, 18888 incorrect, 67276 total)
+Precision/recall on test set: 74.23%/67.17%
+
+6
+missing polarizability
+linear kernel
+Accuracy on test set: 72.46% (48749 correct, 18527 incorrect, 67276 total)
+Precision/recall on test set: 75.14%/67.13%
+
+7
+missing SASA
+linear kernel
+Accuracy on test set: 71.67% (48218 correct, 19058 incorrect, 67276 total)
+Precision/recall on test set: 74.65%/65.64%
+
+8
+missing NCI
+linear kernel
+Accuracy on test set: 71.95% (48405 correct, 18871 incorrect, 67276 total)
+Precision/recall on test set: 74.74%/66.31%
+
+9
+only hydrophobicity
+linear kernel
+
+10
+only hydrophocility
+linear kernel
+
+11
+only volume
+linear kernel
+
+12
+only polarity
+linear kernel
+
+13
+only polarizability
+linear kernel
+
+14
+only SASA
+linear kernel
+
+15
+only NCI
+linear kernel
