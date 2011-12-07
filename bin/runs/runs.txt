@@ -87,3 +87,43 @@ only NCI
 linear kernel
 Accuracy on test set: 57.03% (38367 correct, 28909 incorrect, 67276 total)
 Precision/recall on test set: 63.43%/33.20%
+
+16
+only polarity
+RBF kernel
+
+17
+hydrophobicity, polarity
+linear kernel
+Accuracy on test set: 69.30% (46621 correct, 20655 incorrect, 67276 total)
+Precision/recall on test set: 71.58%/64.01%
+
+18
+hydrophocility, polarity
+linear kernel
+Accuracy on test set: 68.92% (46368 correct, 20908 incorrect, 67276 total)
+Precision/recall on test set: 72.11%/61.72%
+
+19
+volume, polarity
+linear kernel
+Accuracy on test set: 68.97% (46399 correct, 20877 incorrect, 67276 total)
+Precision/recall on test set: 73.29%/59.69%
+
+20
+polarity, polarizability
+linear kernel
+Accuracy on test set: 69.21% (46564 correct, 20712 incorrect, 67276 total)
+Precision/recall on test set: 73.50%/60.10%
+
+21
+polarity, sasa
+linear kernel
+Accuracy on test set: 69.88% (47011 correct, 20265 incorrect, 67276 total)
+Precision/recall on test set: 73.89%/61.48%
+
+22
+polarity, nci
+linear kernel
+Accuracy on test set: 69.63% (46841 correct, 20435 incorrect, 67276 total)
+Precision/recall on test set: 72.98%/62.32%
