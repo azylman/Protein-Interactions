@@ -1,5 +1,8 @@
 package com.zylman.protein;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +49,14 @@ public class Main {
 			endTime = new Date().getTime() / 1000;
 			System.out.println("Retrieved proteins in " + (endTime - startTime) + " seconds");
 			
+			BufferedWriter out = new BufferedWriter(new FileWriter("out.txt"));
+			for (Interaction interaction : interactions) {
+				out.write(interaction.toString(proteins));
+			}
+		} catch (IOException ex) {
+			System.out.println("IOException: " + ex.getMessage());
 		} catch (ProteinException ex) {
-			System.out.println("Protein exception: " + ex.getMessage());
+			System.out.println("ProteinException: " + ex.getMessage());
 		}
 	}
 }
