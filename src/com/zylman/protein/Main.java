@@ -80,7 +80,7 @@ public class Main {
 	}
 	
 	private static void writeInteractionsToFile(List<Interaction> interactions, Map<String, FeatureVector> proteins, String fileName) throws IOException {
-		BufferedWriter out = new BufferedWriter(new FileWriter("out.txt"));
+		BufferedWriter out = new BufferedWriter(new FileWriter(fileName));
 		for (Interaction interaction : interactions) {
 			out.write(interaction.toString(proteins));
 			out.write("\n");
