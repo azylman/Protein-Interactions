@@ -52,7 +52,7 @@ public class Main {
 			
 			List<Interaction> trainingSet = new ArrayList<Interaction>();
 			List<Interaction> testingSet = new ArrayList<Interaction>();
-			splitUpDataset(interactions, trainingSet, testingSet, .3, .3);
+			splitUpDataset(interactions, trainingSet, testingSet, .5, .5);
 			
 			writeInteractionsToFile(trainingSet, proteins, "train.data");
 			writeInteractionsToFile(testingSet, proteins, "test.data");
@@ -64,18 +64,28 @@ public class Main {
 	}
 	
 	private static void splitUpDataset(List<Interaction> interactions, List<Interaction> trainingSet, List<Interaction> testingSet, double trainingRatio, double testingRatio) {
-		int cur = 0;
-		int trainingBreakPoint = (int)((double)interactions.size() * trainingRatio);
-		int testingBreakPoint = (int)((double)interactions.size() * testingRatio) + trainingBreakPoint;
+		List<Interaction> positive = new ArrayList<Interaction>();
+		List<Interaction> negative = new ArrayList<Interaction>();
+		
 		for (Interaction interaction : interactions) {
-			if (cur > testingBreakPoint) {
-				break;
-			} else if (cur > trainingBreakPoint) {
-				testingSet.add(interaction);
+			if (interaction.getClassification()) {
+				positive.add(interaction);
 			} else {
-				trainingSet.add(interaction);
+				negative.add(interaction);
 			}
-			cur++;
+		}
+		
+		int trainingBreakPoint = (int)Math.min((double)positive.size() * trainingRatio, (double)negative.size() * trainingRatio);
+		int testingBreakPoint = (int)Math.min((double)positive.size() * testingRatio, (double)negative.size() * testingRatio) + trainingBreakPoint;
+		
+		for (int i = 0; i < trainingBreakPoint; i++) {
+			trainingSet.add(positive.get(i));
+			trainingSet.add(negative.get(i));
+		}
+		
+		for (int i = trainingBreakPoint; i < testingBreakPoint; i++) {
+			testingSet.add(positive.get(i));
+			testingSet.add(negative.get(i));
 		}
 	}
 	
@@ -85,5 +95,7 @@ public class Main {
 			out.write(interaction.toString(proteins));
 			out.write("\n");
 		}
+		out.flush();
+		out.close();
 	}
 }
