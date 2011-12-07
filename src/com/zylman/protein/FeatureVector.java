@@ -51,19 +51,23 @@ public class FeatureVector {
 		// Store the sequence.
 		this.sequence = sequence;
 		
-		normalize(hydrophobicityMap);
-		
-		normalize(hydrophocilityMap);
-		
-		normalize(volumeMap);
-		
-		normalize(polarityMap);
-		
-		normalize(polarizabilityMap);
-		
-		normalize(sasaMap);
-		
-		normalize(nciMap);
+		if (!propertiesNormalized) {
+			System.out.println("Normalizing property maps");
+			normalize(hydrophobicityMap);
+			
+			normalize(hydrophocilityMap);
+			
+			normalize(volumeMap);
+			
+			normalize(polarityMap);
+			
+			normalize(polarizabilityMap);
+			
+			normalize(sasaMap);
+			
+			normalize(nciMap);
+			propertiesNormalized = true;
+		}
 		
 		calculateCrossCovariance(sequence, hydrophobicityMap, hydrophobicity);
 
@@ -159,8 +163,10 @@ public class FeatureVector {
 		}
 	}
 	
+	private static boolean propertiesNormalized = false;
+	
 	@SuppressWarnings("serial")
-	Map<Character, Double> hydrophobicityMap = new HashMap<Character, Double>(){{
+	private static final Map<Character, Double> hydrophobicityMap = new HashMap<Character, Double>(){{
 		put('A',0.62);
 		put('C',0.29);
 		put('D',-0.9);
@@ -184,7 +190,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> hydrophocilityMap = new HashMap<Character, Double>(){{
+	private static final Map<Character, Double> hydrophocilityMap = new HashMap<Character, Double>(){{
 		put('A',-0.5);
 		put('C',-1.0);
 		put('D',3.0);
@@ -208,7 +214,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> volumeMap = new HashMap<Character, Double>(){{
+	private static final Map<Character, Double> volumeMap = new HashMap<Character, Double>(){{
 		put('A',27.5);
 		put('C',44.6);
 		put('D',40.0);
@@ -232,7 +238,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> polarityMap = new HashMap<Character, Double>(){{
+	private static final Map<Character, Double> polarityMap = new HashMap<Character, Double>(){{
 		put('A',8.1);
 		put('C',5.5);
 		put('D',13.0);
@@ -256,7 +262,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> polarizabilityMap = new HashMap<Character, Double>(){{
+	private static final Map<Character, Double> polarizabilityMap = new HashMap<Character, Double>(){{
 		put('A',0.046);
 		put('C',0.128);
 		put('D',0.105);
@@ -280,7 +286,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> sasaMap = new HashMap<Character, Double>(){{
+	private static final Map<Character, Double> sasaMap = new HashMap<Character, Double>(){{
 		put('A',1.181);
 		put('C',1.461);
 		put('D',1.587);
@@ -304,7 +310,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> nciMap = new HashMap<Character, Double>(){{
+	private static final Map<Character, Double> nciMap = new HashMap<Character, Double>(){{
 		put('A',0.007187);
 		put('C',-0.03661);
 		put('D',-0.02382);
