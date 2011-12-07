@@ -49,27 +49,41 @@ Precision/recall on test set: 74.74%/66.31%
 9
 only hydrophobicity
 linear kernel
+Accuracy on test set: 65.01% (43733 correct, 23543 incorrect, 67276 total)
+Precision/recall on test set: 67.30%/58.37%
 
 10
 only hydrophocility
 linear kernel
+Accuracy on test set: 67.31% (45284 correct, 21992 incorrect, 67276 total)
+Precision/recall on test set: 70.64%/59.25%
 
 11
 only volume
 linear kernel
+Accuracy on test set: 57.80% (38888 correct, 28388 incorrect, 67276 total)
+Precision/recall on test set: 61.74%/41.03%
 
 12
 only polarity
 linear kernel
+Accuracy on test set: 68.08% (45799 correct, 21477 incorrect, 67276 total)
+Precision/recall on test set: 71.29%/60.53%
 
 13
 only polarizability
 linear kernel
+Accuracy on test set: 58.04% (39047 correct, 28229 incorrect, 67276 total)
+Precision/recall on test set: 62.49%/40.23%
 
 14
 only SASA
 linear kernel
+Accuracy on test set: 59.62% (40108 correct, 27168 incorrect, 67276 total)
+Precision/recall on test set: 63.40%/45.51%
 
 15
 only NCI
 linear kernel
+Accuracy on test set: 57.03% (38367 correct, 28909 incorrect, 67276 total)
+Precision/recall on test set: 63.43%/33.20%
