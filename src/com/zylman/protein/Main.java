@@ -54,7 +54,8 @@ public class Main {
 			List<Interaction> testingSet = new ArrayList<Interaction>();
 			splitUpDataset(interactions, trainingSet, testingSet, .3, .3);
 			
-			writeInteractionsToFile(trainingSet, proteins, "out.data");
+			writeInteractionsToFile(trainingSet, proteins, "train.data");
+			writeInteractionsToFile(testingSet, proteins, "test.data");
 		} catch (IOException ex) {
 			System.out.println("IOException: " + ex.getMessage());
 		} catch (ProteinException ex) {
