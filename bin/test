@@ -1,0 +1,5 @@
+#!/bin/bash
+
+CLASSIFY="$1"
+
+./svm_classify runs/$CLASSIFY/test.data runs/$CLASSIFY/protein.model

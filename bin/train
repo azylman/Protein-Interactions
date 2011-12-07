@@ -1,0 +1,5 @@
+#!/bin/bash
+
+LEARN="$1"
+
+./svm_learn runs/$LEARN/train.data runs/$LEARN/protein.model
