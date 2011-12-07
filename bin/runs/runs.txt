@@ -91,6 +91,8 @@ Precision/recall on test set: 63.43%/33.20%
 16
 only polarity
 RBF kernel
+Accuracy on test set: 71.40% (48034 correct, 19242 incorrect, 67276 total)
+Precision/recall on test set: 73.66%/66.61%
 
 17
 hydrophobicity, polarity
