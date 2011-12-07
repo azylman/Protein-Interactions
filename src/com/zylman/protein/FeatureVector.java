@@ -7,80 +7,116 @@ import java.util.Map;
 
 public class FeatureVector {
 	String sequence;
-	List<Double> hydrophobicityArr = new ArrayList<Double>();
-	List<Double> hydrophocilityArr = new ArrayList<Double>();
-	List<Double> volumeArr = new ArrayList<Double>();
-	List<Double> polarityArr = new ArrayList<Double>();
-	List<Double> polarizabilityArr = new ArrayList<Double>();
-	List<Double> sasaArr = new ArrayList<Double>();
-	List<Double> nciArr = new ArrayList<Double>();
+	List<Double> hydrophobicity = new ArrayList<Double>();
+	List<Double> hydrophocility = new ArrayList<Double>();
+	List<Double> volume = new ArrayList<Double>();
+	List<Double> polarity = new ArrayList<Double>();
+	List<Double> polarizability = new ArrayList<Double>();
+	List<Double> sasa = new ArrayList<Double>();
+	List<Double> nci = new ArrayList<Double>();
 	
 	String getSequence() {
 		return sequence;
 	}
 	
 	List<Double> getHydrophobicity() {
-		return hydrophobicityArr;
+		return hydrophobicity;
 	}
 	
 	List<Double> getHydrophicility() {
-		return hydrophocilityArr;
+		return hydrophocility;
 	}
 	
 	List<Double> getVolume() {
-		return volumeArr;
+		return volume;
 	}
 	
 	List<Double> getPolarity() {
-		return polarityArr;
+		return polarity;
 	}
 	
 	List<Double> getPolarizability() {
-		return polarizabilityArr;
+		return polarizability;
 	}
 	
 	List<Double> getSASA() {
-		return sasaArr;
+		return sasa;
 	}
 	
 	List<Double> getNCI() {
-		return nciArr;
+		return nci;
 	}
 
 	FeatureVector(String sequence) {
 		// Store the sequence.
 		this.sequence = sequence;
 		
-		calculateCrossCovariance(sequence, hydrophobicity, hydrophobicityArr);
+		normalize(hydrophobicityMap);
+		
+		normalize(hydrophocilityMap);
+		
+		normalize(volumeMap);
+		
+		normalize(polarityMap);
+		
+		normalize(polarizabilityMap);
+		
+		normalize(sasaMap);
+		
+		normalize(nciMap);
+		
+		calculateCrossCovariance(sequence, hydrophobicityMap, hydrophobicity);
 
-		calculateCrossCovariance(sequence, hydrophocility, hydrophocilityArr);
+		calculateCrossCovariance(sequence, hydrophocilityMap, hydrophocility);
 		
-		calculateCrossCovariance(sequence, volume, volumeArr);
+		calculateCrossCovariance(sequence, volumeMap, volume);
 		
-		calculateCrossCovariance(sequence, polarity, polarityArr);
+		calculateCrossCovariance(sequence, polarityMap, polarity);
 		
-		calculateCrossCovariance(sequence, polarizability, polarizabilityArr);
+		calculateCrossCovariance(sequence, polarizabilityMap, polarizability);
 		
-		calculateCrossCovariance(sequence, SASA, sasaArr);
+		calculateCrossCovariance(sequence, sasaMap, sasa);
 		
-		calculateCrossCovariance(sequence, NCI, nciArr);
+		calculateCrossCovariance(sequence, nciMap, nci);
 	}
 	
 	FeatureVector(
-			List<Double> hydophobicity,
+			List<Double> hydrophobicity,
 			List<Double> hydrophocility,
 			List<Double> volume,
 			List<Double> polarity,
 			List<Double> polarizability,
 			List<Double> SASA,
 			List<Double> NCI) {
-		hydrophobicityArr = hydophobicity;
-		hydrophocilityArr = hydrophocility;
-		volumeArr = volume;
-		polarityArr = polarity;
-		polarizabilityArr = polarizability;
-		sasaArr = SASA;
-		nciArr = NCI;
+		this.hydrophobicity = hydrophobicity;
+		this.hydrophocility = hydrophocility;
+		this.volume = volume;
+		this.polarity = polarity;
+		this.polarizability = polarizability;
+		this.sasa = SASA;
+		this.nci = NCI;
+	}
+	
+	private void normalize(Map<Character, Double> map) {
+		
+		double average = 0.0;
+		for (Map.Entry<Character, Double> entry : map.entrySet()) {
+			average += entry.getValue();
+		}
+		average /= (double)map.size();
+		
+		double sd = 0.0;
+		for (Map.Entry<Character, Double> entry : map.entrySet()) {
+			double temp = entry.getValue() - average;
+			sd += temp * temp;
+		}
+		sd /= (double)map.size();
+		sd = Math.sqrt(sd);
+		
+		for (Map.Entry<Character, Double> entry : map.entrySet()) {
+			double normalizedValue = (entry.getValue() - average) / sd;
+			map.put(entry.getKey(), normalizedValue);
+		}
 	}
 	
 	private void calculateCrossCovariance(String sequence, Map<Character, Double> map, List<Double> list) {
@@ -124,7 +160,7 @@ public class FeatureVector {
 	}
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> hydrophobicity = new HashMap<Character, Double>(){{
+	Map<Character, Double> hydrophobicityMap = new HashMap<Character, Double>(){{
 		put('A',0.62);
 		put('C',0.29);
 		put('D',-0.9);
@@ -148,7 +184,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> hydrophocility = new HashMap<Character, Double>(){{
+	Map<Character, Double> hydrophocilityMap = new HashMap<Character, Double>(){{
 		put('A',-0.5);
 		put('C',-1.0);
 		put('D',3.0);
@@ -172,7 +208,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> volume = new HashMap<Character, Double>(){{
+	Map<Character, Double> volumeMap = new HashMap<Character, Double>(){{
 		put('A',27.5);
 		put('C',44.6);
 		put('D',40.0);
@@ -196,7 +232,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> polarity = new HashMap<Character, Double>(){{
+	Map<Character, Double> polarityMap = new HashMap<Character, Double>(){{
 		put('A',8.1);
 		put('C',5.5);
 		put('D',13.0);
@@ -220,7 +256,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> polarizability = new HashMap<Character, Double>(){{
+	Map<Character, Double> polarizabilityMap = new HashMap<Character, Double>(){{
 		put('A',0.046);
 		put('C',0.128);
 		put('D',0.105);
@@ -244,7 +280,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> SASA = new HashMap<Character, Double>(){{
+	Map<Character, Double> sasaMap = new HashMap<Character, Double>(){{
 		put('A',1.181);
 		put('C',1.461);
 		put('D',1.587);
@@ -268,7 +304,7 @@ public class FeatureVector {
 	}};
 	
 	@SuppressWarnings("serial")
-	Map<Character, Double> NCI = new HashMap<Character, Double>(){{
+	Map<Character, Double> nciMap = new HashMap<Character, Double>(){{
 		put('A',0.007187);
 		put('C',-0.03661);
 		put('D',-0.02382);
